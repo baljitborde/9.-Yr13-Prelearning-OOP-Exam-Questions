@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOP Exam Scenarios – Year 13 Pre-learning | CIE 9618</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+body{margin:0;padding:0;background:#f5f5f5;font-family:'Lato',sans-serif;font-size:14pt;color:#333333;line-height:1.65;}
+
+.opt{display:block;font-family:'Lato',sans-serif;font-size:14pt;padding:11px 18px;border:2px solid #d0d0d0;border-radius:6px;background:#ffffff;color:#333333;cursor:pointer;margin-bottom:10px;line-height:1.4;user-select:none;-webkit-user-select:none;transition:background 0.12s,border-color 0.12s;}
+.opt:hover{background:#e3f2fd;border-color:#007BA6;}
+.opt.selected{background:#e3f2fd;border-color:#007BA6;font-weight:700;}
+.opt.correct{background:#e8f5e9!important;border-color:#388e3c!important;color:#1b5e20!important;font-weight:700;pointer-events:none;cursor:default;}
+.opt.wrong{background:#ffebee!important;border-color:#C62828!important;color:#7f0000!important;pointer-events:none;cursor:default;}
+.opt.reveal{background:#e8f5e9!important;border-color:#388e3c!important;color:#1b5e20!important;font-weight:700;pointer-events:none;cursor:default;}
+.opt.locked{pointer-events:none;cursor:default;}
+
+.wopt{display:inline-block;font-family:'Courier New',Courier,monospace;font-size:13pt;font-weight:700;padding:8px 18px;border:2px solid #d0d0d0;border-radius:6px;background:#ffffff;color:#333333;cursor:pointer;margin:4px 6px 4px 0;line-height:1.4;user-select:none;-webkit-user-select:none;transition:background 0.12s,border-color 0.12s;}
+.wopt:hover{background:#e3f2fd;border-color:#007BA6;}
+.wopt.selected{background:#e3f2fd;border-color:#007BA6;color:#007BA6;}
+.wopt.correct{background:#e8f5e9!important;border-color:#388e3c!important;color:#1b5e20!important;pointer-events:none;}
+.wopt.wrong{background:#ffebee!important;border-color:#C62828!important;color:#7f0000!important;pointer-events:none;}
+.wopt.reveal{background:#e8f5e9!important;border-color:#388e3c!important;color:#1b5e20!important;pointer-events:none;}
+.wopt.locked{pointer-events:none;}
+
+.fb{display:none;font-family:'Lato',sans-serif;font-size:14pt;line-height:1.65;padding:14px 18px;border-radius:6px;margin-top:14px;}
+.fb-ok{background:#e8f5e9;color:#1b5e20;border:1px solid #81c784;}
+.fb-bad{background:#ffebee;color:#7f0000;border:1px solid #ef9a9a;}
+
+.tf-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px;padding:12px 16px;background:#fff;border:1px solid #d0d0d0;border-radius:6px;}
+.tf-stmt{flex:1;font-family:'Lato',sans-serif;font-size:14pt;color:#333;line-height:1.5;}
+.tf-btns{display:flex;gap:8px;flex-shrink:0;margin-top:2px;}
+.tf-btn{font-family:'Lato',sans-serif;font-size:12pt;font-weight:700;padding:7px 18px;border:2px solid #d0d0d0;border-radius:6px;background:#fff;color:#333;cursor:pointer;}
+.tf-btn:hover{background:#e3f2fd;border-color:#007BA6;}
+.tf-btn.ok{background:#e8f5e9;border-color:#388e3c;color:#1b5e20;pointer-events:none;}
+.tf-btn.bad{background:#ffebee;border-color:#C62828;color:#7f0000;pointer-events:none;}
+.tf-btn.show{background:#e8f5e9;border-color:#388e3c;color:#1b5e20;pointer-events:none;}
+.tf-row.done .tf-btn{pointer-events:none;}
+.tf-row{flex-wrap:wrap;}
+.tf-row > div:not(.tf-stmt):not(.tf-btns){flex-basis:100%;}
+
+.match-row{display:grid;grid-template-columns:200px 1fr;gap:8px;margin-bottom:8px;align-items:center;}
+.match-term{font-family:'Courier New',monospace;font-size:13pt;font-weight:700;padding:9px 12px;background:#1e1e2e;border-radius:6px;color:#a6e3a1;text-align:center;line-height:1.4;}
+.match-sel{font-family:'Lato',sans-serif;font-size:13pt;padding:9px 12px;border:2px solid #d0d0d0;border-radius:6px;background:#fff;color:#333;width:100%;cursor:pointer;}
+.match-sel:focus{outline:none;border-color:#007BA6;}
+.match-row.ok .match-sel{background:#e8f5e9;border-color:#388e3c;color:#1b5e20;}
+.match-row.bad .match-sel{background:#ffebee;border-color:#C62828;color:#7f0000;}
+.match-btn{display:inline-block;font-family:'Lato',sans-serif;font-size:12pt;font-weight:700;padding:8px 22px;border:2px solid #007BA6;border-radius:6px;background:#007BA6;color:#fff;cursor:pointer;margin-top:12px;}
+.match-btn:hover{background:#005f80;}
+.match-btn:disabled{background:#b3d4e8;border-color:#b3d4e8;cursor:default;}
+.match-result{display:none;font-family:'Lato',sans-serif;font-size:14pt;line-height:1.65;padding:14px 18px;border-radius:6px;margin-top:12px;}
+
+.drag-bank{display:flex;flex-wrap:wrap;gap:8px;padding:14px;background:#f0f8ff;border:2px dashed #b3d4e8;border-radius:6px;min-height:52px;margin-bottom:12px;}
+.drag-chip{font-family:'Lato',sans-serif;font-size:12pt;font-weight:700;padding:7px 16px;border:2px solid #007BA6;border-radius:6px;background:#e3f2fd;color:#007BA6;cursor:grab;white-space:nowrap;user-select:none;-webkit-user-select:none;}
+.drag-chip:active{cursor:grabbing;opacity:0.7;}
+.drag-chip.locked{cursor:default;pointer-events:none;opacity:0.75;}
+.drop-zone{display:inline-flex;align-items:center;justify-content:center;min-width:130px;padding:4px 8px;border-bottom:3px solid #007BA6;background:#fafafa;font-family:'Lato',sans-serif;font-size:12pt;color:#C62828;font-weight:700;vertical-align:middle;text-align:center;min-height:28px;}
+.drop-zone.drag-over{background:#e3f2fd;border-bottom-color:#C62828;}
+.sort-zone{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:6px;min-height:76px;}
+.check-btn{display:inline-block;font-family:'Lato',sans-serif;font-size:12pt;font-weight:700;padding:8px 22px;border:2px solid #007BA6;border-radius:6px;background:#007BA6;color:#fff;cursor:pointer;margin-top:12px;}
+.check-btn:hover{background:#005f80;}
+.check-btn:disabled{background:#b3d4e8;border-color:#b3d4e8;cursor:default;}
+.drag-result{display:none;font-family:'Lato',sans-serif;font-size:14pt;line-height:1.65;padding:14px 18px;border-radius:6px;margin-top:12px;}
+
+code{font-family:'Courier New',monospace;background:#f0f0f0;padding:1px 6px;border-radius:3px;font-size:13pt;}
+.cx-tbl{border-collapse:collapse;width:100%;font-size:13pt;}
+.cx-tbl th{background:#007BA6;color:#fff;padding:9px 14px;border:1px solid #005f80;text-align:center;}
+.cx-tbl td{border:1px solid #d0d0d0;padding:8px 14px;text-align:left;vertical-align:top;}
+.cx-tbl tr:nth-child(even) td{background:#f0f8ff;}
+.code{margin:0;background:#1e1e2e;border-radius:8px;padding:16px 20px;font-family:'Courier New',monospace;font-size:12pt;line-height:1.85;color:#cdd6f4;white-space:pre;overflow-x:auto;}
+.code-lbl{font-size:11pt;font-weight:700;color:#6c7086;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px;font-family:'Lato',sans-serif;white-space:normal;}
+.k{color:#f38ba8;}.v{color:#fab387;}.f{color:#a6e3a1;}.cm{color:#6c7086;}.s{color:#f9e2af;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.rec{display:flex;gap:4px;margin-bottom:4px;font-family:'Courier New',monospace;font-size:11pt;}
+.rec span{background:#fff;border:1px solid #b3d4e8;border-radius:3px;padding:2px 6px;}
+.rec span.key{background:#fff3e0;border-color:#e65100;font-weight:700;color:#e65100;}
+.rec span.addr{background:#1e1e2e;color:#fab387;border-color:#1e1e2e;min-width:34px;text-align:center;}
+.rec span.empty{color:#aaa;font-style:italic;}
+.slot-line{font-family:'Courier New',monospace;font-size:12pt;color:#cdd6f4;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.slot-line .ln{color:#6c7086;min-width:22px;text-align:right;}
+.drop-zone .drag-chip{white-space:normal;}
+.g2w{grid-template-columns:1.2fr 1fr;}
+@media (max-width:720px){
+  .g2,.g3,.g2w{grid-template-columns:1fr;}
+  .match-row{grid-template-columns:1fr;}
+  .tf-row{flex-direction:column;}
+}
+.cls{border:2px solid #007BA6;border-radius:6px;background:#fff;font-family:'Courier New',monospace;font-size:12pt;overflow:hidden;}
+.cls-h{background:#007BA6;color:#fff;font-weight:700;text-align:center;padding:6px 10px;font-family:'Lato',sans-serif;font-size:13pt;}
+.cls-s{padding:6px 12px;border-top:1px solid #b3d4e8;line-height:1.7;}
+.priv{color:#C62828;font-weight:700;}.pub{color:#1b5e20;font-weight:700;}
+.term{font-weight:700;color:#007BA6;}
+.g2>*,.g3>*{min-width:0;}
+
+.exq{background:#fffdf5;border:2px solid #e65100;border-radius:8px;padding:16px 20px;margin-bottom:14px;}
+.exq-lbl{font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#e65100;margin-bottom:8px;}
+.exq-q{font-size:14pt;font-weight:700;color:#333;line-height:1.5;margin-bottom:10px;}
+.exq-mk{color:#e65100;font-weight:700;white-space:nowrap;}
+.ans-btn{display:inline-block;font-family:'Lato',sans-serif;font-size:12pt;font-weight:700;padding:7px 18px;border:2px solid #e65100;border-radius:6px;background:#fff;color:#e65100;cursor:pointer;}
+.ans-btn:hover{background:#fff3e0;}
+.ans{display:none;margin-top:12px;background:#fff3e0;border-radius:6px;padding:12px 16px;font-size:13pt;line-height:1.7;}
+.ans ul{margin:4px 0 0;padding-left:1.2em;}
+.recap{border-left:4px solid #00796B;background:#e0f2f1;padding:12px 16px;border-radius:0 6px 6px 0;margin-bottom:14px;font-size:13.5pt;}
+.recap strong.h{color:#00796B;}
+</style>
+</head>
+<body style="margin:0;padding:0;background:#f5f5f5;">
+<div style="max-width:960px;margin:0 auto;padding:0 0 80px;">
+
+<!-- HEADER -->
+<div style="background:#007BA6;padding:32px 40px 28px;">
+  <div style="font-size:11pt;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">CIE A-Level Computer Science 9618 &bull; Unit 4 &bull; Topic 20.1 Programming Paradigms</div>
+  <div style="font-size:24pt;font-weight:700;color:#ffffff;margin:0 0 6px;">Object-Oriented Techniques: Applying OOP to Exam Scenarios</div>
+  <div style="font-size:14pt;color:rgba(255,255,255,0.88);">Pre-learning &nbsp;|&nbsp; Year 13 Computer Science</div>
+  <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;">
+    <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:11pt;font-weight:700;padding:4px 14px;border-radius:20px;">&#9679; 90 minutes</span>
+    <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:11pt;font-weight:700;padding:4px 14px;border-radius:20px;">&#9679; 6 sections</span>
+    <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:11pt;font-weight:700;padding:4px 14px;border-radius:20px;">&#9679; 22 interactive activities</span>
+    <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:11pt;font-weight:700;padding:4px 14px;border-radius:20px;">&#9679; 6 worked exam questions</span>
+  </div>
+</div>
+
+<!-- CONTENTS -->
+<div style="background:#ffffff;border-bottom:1px solid #d0d0d0;padding:20px 40px;">
+  <div style="font-size:12pt;font-weight:700;color:#007BA6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Contents</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;">
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>Classes, Objects &amp; Instances</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>Encapsulation, Getters &amp; Setters</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>Inheritance</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>Polymorphism &amp; Overriding</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>Containment (Aggregation)</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">6</div>Exam Practice: Putting It All Together</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:12pt;"><div style="min-width:22px;height:22px;border-radius:50%;background:#007BA6;color:#fff;font-size:10pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">&#10003;</div>Summary</div>
+  </div>
+</div>
+
+<div style="padding:40px 40px 0;">
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1 — CLASSES, OBJECTS & INSTANCES
+══════════════════════════════════════════════ -->
+<div style="margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid #d0d0d0;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #007BA6;">
+    <div style="min-width:36px;height:36px;border-radius:50%;background:#007BA6;color:#fff;font-size:14pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</div>
+    <div style="font-size:18pt;font-weight:700;color:#007BA6;">Classes, Objects &amp; Instances</div>
+    <div style="margin-left:auto;font-size:10pt;font-weight:700;color:#007BA6;background:#e3f2fd;padding:4px 12px;border-radius:20px;white-space:nowrap;border:1px solid #b3d4e8;flex-shrink:0;">&#9679; ~15 minutes</div>
+  </div>
+  <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:20px 24px;margin-bottom:18px;">
+    <p style="margin:0 0 14px;">You already know the language of OOP. This pre-learning is about <strong>using it in the exam</strong>. Paper 4 questions give you a <strong>scenario</strong> and ask you to state, describe or explain an OOP term <em>using that scenario</em>, or to write Python code for it. A textbook definition on its own rarely gets full marks: you need to link it to the classes in the question.</p>
+
+    <div style="font-size:13pt;font-weight:700;color:#007BA6;margin-bottom:10px;">The scenario used throughout this page</div>
+    <div style="border:2px dashed #007BA6;background:#f0f8ff;border-radius:6px;padding:14px 18px;margin-bottom:16px;font-size:13.5pt;">
+      A music streaming app called <strong>TuneBox</strong> stores <u>audio items</u>. Every audio item has a <u>title</u> and a <u>length in seconds</u>, and users can give it a <u>rating</u> from 1 to 5 (it starts at 0, meaning "not rated"). There are two kinds of audio item: <u>songs</u>, which also have an <u>artist</u>, and <u>podcasts</u>, which also have an <u>episode number</u>. Users can build <u>playlists</u>, each with a name, that hold any number of audio items. The app must <em>describe</em> each item and <em>work out</em> the total length of a playlist.
+    </div>
+
+    <div style="overflow-x:auto;margin-bottom:16px;">
+      <table class="cx-tbl">
+        <tr><th style="width:22%;">Term</th><th>Exam-ready definition</th><th style="width:30%;">In TuneBox</th></tr>
+        <tr><td><span class="term">Class</span></td><td>A blueprint or template that defines the attributes and methods its objects will have</td><td><code>AudioItem</code>, <code>Playlist</code></td></tr>
+        <tr><td><span class="term">Object</span></td><td>A single item created from a class, with its own values for the attributes</td><td>The audio item "Morning Mix"</td></tr>
+        <tr><td><span class="term">Instance</span> / instantiation</td><td>An object is an instance of a class; instantiation is creating that object using the constructor</td><td><code>Item1 = AudioItem("Morning Mix", 245)</code></td></tr>
+        <tr><td><span class="term">Attribute</span> (property)</td><td>A piece of data stored about an object</td><td><code>Title</code>, <code>Seconds</code>, <code>Rating</code></td></tr>
+        <tr><td><span class="term">Method</span></td><td>A procedure or function defined in a class that acts on the object's data</td><td><code>GetTitle()</code>, <code>SetRating()</code></td></tr>
+      </table>
+    </div>
+
+    <div class="g2 g2w" style="margin-bottom:16px;align-items:start;">
+      <div class="code" style="font-size:11pt;"><div class="code-lbl">Python — the AudioItem class</div><span class="k">class</span> <span class="f">AudioItem</span>:
+    <span class="k">def</span> <span class="f">__init__</span>(self, Title, Seconds):
+        self.__Title = Title
+        self.__Seconds = Seconds
+        self.__Rating = <span class="v">0</span>        <span class="cm"># default</span>
+
+    <span class="k">def</span> <span class="f">GetTitle</span>(self):
+        <span class="k">return</span> self.__Title
+
+    <span class="k">def</span> <span class="f">GetSeconds</span>(self):
+        <span class="k">return</span> self.__Seconds
+
+    <span class="k">def</span> <span class="f">GetRating</span>(self):
+        <span class="k">return</span> self.__Rating
+
+    <span class="k">def</span> <span class="f">SetRating</span>(self, NewRating):
+        <span class="k">if</span> NewRating &gt;= <span class="v">1</span> <span class="k">and</span> NewRating &lt;= <span class="v">5</span>:
+            self.__Rating = NewRating
+            <span class="k">return</span> <span class="k">True</span>
+        <span class="k">return</span> <span class="k">False</span>
+
+    <span class="k">def</span> <span class="f">Describe</span>(self):
+        <span class="k">return</span> self.__Title</div>
+      <div>
+        <div class="cls" style="margin-bottom:12px;"><div class="cls-h">AudioItem</div><div class="cls-s"><span class="priv">-</span> Title : STRING<br><span class="priv">-</span> Seconds : INTEGER<br><span class="priv">-</span> Rating : INTEGER</div><div class="cls-s"><span class="pub">+</span> Constructor(Title, Seconds)<br><span class="pub">+</span> GetTitle() : STRING<br><span class="pub">+</span> GetSeconds() : INTEGER<br><span class="pub">+</span> GetRating() : INTEGER<br><span class="pub">+</span> SetRating(NewRating) : BOOLEAN<br><span class="pub">+</span> Describe() : STRING</div></div>
+        <div class="code" style=""><div class="code-lbl">Main program — two instances</div>Item1 = <span class="f">AudioItem</span>(<span class="s">"Morning Mix"</span>, <span class="v">245</span>)
+Item2 = <span class="f">AudioItem</span>(<span class="s">"Rainy Day"</span>, <span class="v">198</span>)
+<span class="f">print</span>(Item1.<span class="f">GetTitle</span>())</div>
+      </div>
+    </div>
+    <div style="border-left:4px solid #9966FF;background:#f3e5f5;padding:12px 16px;border-radius:0 6px 6px 0;margin-bottom:14px;"><strong style="color:#9966FF;">One class, many objects:</strong> Item1 and Item2 are two separate <strong>instances</strong> of the same class. They share the same methods but each has its <em>own</em> values for Title, Seconds and Rating.</div>
+    <div class="exq">
+      <div class="exq-lbl">&#9998; Worked exam-style question</div>
+      <div class="exq-q">Using the TuneBox scenario, identify <strong>one</strong> attribute and <strong>one</strong> method of the AudioItem class. <span class="exq-mk">[2]</span></div>
+      <div style="font-size:13pt;color:#555;margin-bottom:10px;">Think of your answer first, then reveal the mark scheme.</div>
+      <button class="ans-btn" onclick="toggleAns(1,this)">&#128065; Show model answer</button>
+      <div class="ans" id="ans1"><strong>Mark scheme — one mark for each point:</strong><ul><li>One attribute, e.g. Title / Seconds / Rating</li><li>One method, e.g. GetTitle() / SetRating() / Describe()</li></ul><div style="margin-top:8px;"><strong style="color:#e65100;">Examiner tip:</strong> "Identify" questions only need the name from the scenario. Do not waste time writing a definition.</div></div>
+    </div>
+    <div style="border-left:4px solid #007BA6;background:#e3f2fd;padding:12px 16px;border-radius:0 6px 6px 0;"><strong style="color:#007BA6;">CIE 9618 Specification (20.1):</strong> understanding of the terminology associated with OOP (including objects, properties/attributes, methods, classes, inheritance, polymorphism, containment (aggregation), encapsulation, getters, setters, instances).</div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9654; Activity 1 — Match the term to its definition</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Use the dropdowns to match each term to its exam-ready definition.</div>
+    <div id="match1">
+      <div class="match-row"><div class="match-term">Class</div><select class="match-sel" data-ans="cls"><option value="">— choose —</option><option value="met">A procedure or function in a class that acts on the object's data</option><option value="con">The method that runs when an object is created and sets its starting values</option><option value="cls">A blueprint that defines the attributes and methods of its objects</option><option value="att">A piece of data stored about an object</option><option value="inst">One particular object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">Instance</div><select class="match-sel" data-ans="inst"><option value="">— choose —</option><option value="met">A procedure or function in a class that acts on the object's data</option><option value="con">The method that runs when an object is created and sets its starting values</option><option value="cls">A blueprint that defines the attributes and methods of its objects</option><option value="att">A piece of data stored about an object</option><option value="inst">One particular object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">Attribute</div><select class="match-sel" data-ans="att"><option value="">— choose —</option><option value="met">A procedure or function in a class that acts on the object's data</option><option value="con">The method that runs when an object is created and sets its starting values</option><option value="cls">A blueprint that defines the attributes and methods of its objects</option><option value="att">A piece of data stored about an object</option><option value="inst">One particular object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">Method</div><select class="match-sel" data-ans="met"><option value="">— choose —</option><option value="met">A procedure or function in a class that acts on the object's data</option><option value="con">The method that runs when an object is created and sets its starting values</option><option value="cls">A blueprint that defines the attributes and methods of its objects</option><option value="att">A piece of data stored about an object</option><option value="inst">One particular object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">Constructor</div><select class="match-sel" data-ans="con"><option value="">— choose —</option><option value="met">A procedure or function in a class that acts on the object's data</option><option value="con">The method that runs when an object is created and sets its starting values</option><option value="cls">A blueprint that defines the attributes and methods of its objects</option><option value="att">A piece of data stored about an object</option><option value="inst">One particular object created from a class</option></select></div>
+    </div>
+    <button class="match-btn" id="match1-btn" onclick="checkMatch1()">&#10003; Check my answers</button>
+    <div class="match-result" id="match1-res"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#8644; Activity 2 — Sort: class, attribute or method?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Read this new exam scenario, then drag each word into the part of the design it would become.</div>
+    <div style="border:2px dashed #388e3c;background:#f0f8f0;border-radius:6px;padding:12px 16px;margin-bottom:12px;font-size:13pt;">A cinema shows <u>films</u> on <u>screens</u>. Each film has a <u>title</u> and an <u>age rating</u>. Each screen has a <u>number of seats</u>. Staff can <em>book</em> a seat and <em>cancel</em> a booking.</div>
+    <div class="drag-bank" id="bank2">
+      <div class="drag-chip" draggable="true">cancel</div>
+      <div class="drag-chip" draggable="true">Film</div>
+      <div class="drag-chip" draggable="true">title</div>
+      <div class="drag-chip" draggable="true">number of seats</div>
+      <div class="drag-chip" draggable="true">Screen</div>
+      <div class="drag-chip" draggable="true">book</div>
+      <div class="drag-chip" draggable="true">age rating</div>
+    </div>
+    <div class="g3" style="margin-bottom:12px;">
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#007BA6;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Class</div>
+        <div id="sort2-0" class="sort-zone drag-bank" style="border-color:#007BA6;background:#f0f8ff;min-height:110px;flex-direction:column;"></div>
+      </div>
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Attribute</div>
+        <div id="sort2-1" class="sort-zone drag-bank" style="border-color:#e65100;background:#fffaf3;min-height:110px;flex-direction:column;"></div>
+      </div>
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#388e3c;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Method</div>
+        <div id="sort2-2" class="sort-zone drag-bank" style="border-color:#388e3c;background:#f0f8f0;min-height:110px;flex-direction:column;"></div>
+      </div>
+    </div>
+    <button class="check-btn" id="btn2" onclick="checkSort2()">&#10003; Check my sort</button>
+    <div class="drag-result" id="res2"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 3 — Multiple choice — count the instances</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">How many <strong>instances</strong> of AudioItem exist after this code runs?</div>
+<div class="code" style="margin-bottom:14px;">A = <span class="f">AudioItem</span>(<span class="s">"Intro"</span>, <span class="v">30</span>)
+B = <span class="f">AudioItem</span>(<span class="s">"Outro"</span>, <span class="v">45</span>)
+C = A</div>
+    <div id="opts3">
+      <div class="opt" onclick="pickOpt(3,'a',this)">a) 1</div>
+      <div class="opt" onclick="pickOpt(3,'b',this)">b) 2</div>
+      <div class="opt" onclick="pickOpt(3,'c',this)">c) 3</div>
+      <div class="opt" onclick="pickOpt(3,'d',this)">d) 0 — no objects are created until a method is called</div>
+    </div>
+    <div class="fb" id="fb3"></div>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════
+     SECTION 2 — ENCAPSULATION, GETTERS & SETTERS
+══════════════════════════════════════════════ -->
+<div style="margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid #d0d0d0;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #007BA6;">
+    <div style="min-width:36px;height:36px;border-radius:50%;background:#007BA6;color:#fff;font-size:14pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</div>
+    <div style="font-size:18pt;font-weight:700;color:#007BA6;">Encapsulation, Getters &amp; Setters</div>
+    <div style="margin-left:auto;font-size:10pt;font-weight:700;color:#007BA6;background:#e3f2fd;padding:4px 12px;border-radius:20px;white-space:nowrap;border:1px solid #b3d4e8;flex-shrink:0;">&#9679; ~15 minutes</div>
+  </div>
+  <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:20px 24px;margin-bottom:18px;">
+    <div class="recap"><strong class="h">Quick recap:</strong> <strong>Encapsulation</strong> means keeping an object's data and the methods that use it together in one class, and hiding the data by making attributes <strong>private</strong>. Other code can only reach the data through <strong>public</strong> methods: a <strong>getter</strong> returns a value and a <strong>setter</strong> changes it, usually after checking (validating) it.</div>
+    <div class="g2" style="margin-bottom:16px;">
+      <div style="background:#e3f2fd;border-radius:8px;padding:16px 18px;border-top:4px solid #007BA6;">
+        <div style="font-weight:700;color:#007BA6;font-size:15pt;margin-bottom:8px;">Getter</div>
+        <p style="margin:0 0 8px;font-size:13pt;">Returns the value of a private attribute. It does not change anything.</p>
+        <code>def GetRating(self):<br>&nbsp;&nbsp;&nbsp;&nbsp;return self.__Rating</code>
+      </div>
+      <div style="background:#e8f5e9;border-radius:8px;padding:16px 18px;border-top:4px solid #388e3c;">
+        <div style="font-weight:700;color:#388e3c;font-size:15pt;margin-bottom:8px;">Setter</div>
+        <p style="margin:0 0 8px;font-size:13pt;">Takes a new value as a parameter, validates it, then changes the private attribute.</p>
+        <code>SetRating(NewRating)</code> only accepts 1 to 5.
+      </div>
+    </div>
+    <div class="g2" style="margin-bottom:16px;align-items:start;">
+      <div class="code" style=""><div class="code-lbl">Encapsulation in action</div>Track = <span class="f">AudioItem</span>(<span class="s">"Morning Mix"</span>, <span class="v">245</span>)
+<span class="f">print</span>(Track.<span class="f">SetRating</span>(<span class="v">4</span>))   <span class="cm"># True</span>
+<span class="f">print</span>(Track.<span class="f">SetRating</span>(<span class="v">9</span>))   <span class="cm"># False</span>
+<span class="f">print</span>(Track.<span class="f">GetRating</span>())    <span class="cm"># 4</span>
+<span class="f">print</span>(Track.__Rating)       <span class="cm"># AttributeError</span></div>
+      <div style="background:#f5f5f5;border:1px solid #d0d0d0;border-radius:8px;padding:16px 18px;">
+        <div style="font-size:13pt;font-weight:700;color:#333;margin-bottom:8px;">What is happening?</div>
+        <ul style="margin:0;padding-left:1.2em;font-size:13pt;line-height:1.8;">
+          <li>4 is valid, so it is stored and the setter returns True.</li>
+          <li>9 is rejected, so Rating stays 4.</li>
+          <li>The getter is the only way to read the rating.</li>
+          <li>Reading <code>Track.__Rating</code> directly fails, because the attribute is private.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exq">
+      <div class="exq-lbl">&#9998; Worked exam-style question</div>
+      <div class="exq-q">Explain why the attribute <code>Rating</code> in the AudioItem class is declared as <strong>private</strong>. <span class="exq-mk">[2]</span></div>
+      <div style="font-size:13pt;color:#555;margin-bottom:10px;">Think of your answer first, then reveal the mark scheme.</div>
+      <button class="ans-btn" onclick="toggleAns(2,this)">&#128065; Show model answer</button>
+      <div class="ans" id="ans2"><strong>Mark scheme — one mark for each point:</strong><ul><li>So it cannot be accessed or changed directly from outside the class / it can only be changed through the class's own methods</li><li>The setter SetRating() validates the new value, so an invalid rating (not 1 to 5) cannot be stored</li></ul><div style="margin-top:8px;"><strong style="color:#e65100;">Examiner tip:</strong> "Explain" needs a reason <em>and</em> a link to the scenario. Naming SetRating() and the 1 to 5 rule is what earns the second mark.</div></div>
+    </div>
+    <div style="border-left:4px solid #e65100;background:#fff3e0;padding:12px 16px;border-radius:0 6px 6px 0;"><strong style="color:#e65100;">Watch out:</strong> a getter must <strong>return</strong> the value. A "getter" that prints the value cannot be used by other code, and is a common reason for losing marks.</div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9998; Activity 4 — Fill in the gap</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">In Python, an attribute is made private by starting its name with <span style="background:#1e1e2e;color:#fab387;font-family:'Courier New',monospace;padding:2px 10px;border-radius:4px;font-size:13pt;">&#9744;</span>, for example <code>self.__Rating</code>.</div>
+    <div id="opts4w">
+      <span class="wopt" onclick="pickWopt(4,'a',this)">self.</span>
+      <span class="wopt" onclick="pickWopt(4,'b',this)">__ (two underscores)</span>
+      <span class="wopt" onclick="pickWopt(4,'c',this)">private</span>
+      <span class="wopt" onclick="pickWopt(4,'d',this)">Get</span>
+    </div>
+    <div class="fb" id="fb4"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 5 — Multiple choice — which answer scores?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">An exam question asks: <em>"State the purpose of a getter method."</em> <span class="exq-mk">[1]</span> Which answer gets the mark?</div>
+    <div id="opts5">
+      <div class="opt" onclick="pickOpt(5,'a',this)">a) To get the object</div>
+      <div class="opt" onclick="pickOpt(5,'b',this)">b) To return the value of a private attribute so it can be used outside the class</div>
+      <div class="opt" onclick="pickOpt(5,'c',this)">c) To check that a new value is valid before storing it</div>
+      <div class="opt" onclick="pickOpt(5,'d',this)">d) To create a new instance of a class</div>
+    </div>
+    <div class="fb" id="fb5"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9707; Activity 6 — Complete the setter</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">A Podcast app stores a private attribute <code>Volume</code>, which must be between 0 and 10 inclusive. Complete <code>SetVolume()</code> so it returns True if the volume is stored and False if not. Two chips are not needed.</div>
+    <div class="drag-bank" id="bank6">
+      <div class="drag-chip" draggable="true">return False</div>
+      <div class="drag-chip" draggable="true">NewVolume &gt; 0 and NewVolume &lt; 10</div>
+      <div class="drag-chip" draggable="true">self.__Volume = NewVolume</div>
+      <div class="drag-chip" draggable="true">print(NewVolume)</div>
+      <div class="drag-chip" draggable="true">NewVolume &gt;= 0 and NewVolume &lt;= 10</div>
+      <div class="drag-chip" draggable="true">return True</div>
+    </div>
+    <div style="background:#1e1e2e;border-radius:6px;padding:16px 20px;font-family:'Courier New',monospace;font-size:12.5pt;line-height:2.8;color:#cdd6f4;overflow-x:auto;">
+      def SetVolume(self, NewVolume):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;if <span id="dz6a" class="drop-zone" style="min-width:300px;">?</span>:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz6b" class="drop-zone" style="min-width:260px;">?</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz6c" class="drop-zone" style="min-width:160px;">?</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span id="dz6d" class="drop-zone" style="min-width:160px;">?</span>
+    </div>
+    <button class="check-btn" id="btn6" onclick="checkDrop6()">&#10003; Check my answers</button>
+    <div class="drag-result" id="res6"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 7 — True or False?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Click True or False for each statement about encapsulation.</div>
+    <div class="tf-row" id="tf1">
+      <div class="tf-stmt">Encapsulation means bundling data and the methods that act on it into one class, and hiding the data from outside code.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(1,true,true)">True</button><button class="tf-btn" onclick="doTF(1,false,true)">False</button></div>
+    </div>
+    <div class="tf-row" id="tf2">
+      <div class="tf-stmt">A setter should always print the new value instead of storing it.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(2,true,false)">True</button><button class="tf-btn" onclick="doTF(2,false,false)">False</button></div>
+    </div>
+    <div class="tf-row" id="tf3">
+      <div class="tf-stmt">Every attribute must have both a getter and a setter.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(3,true,false)">True</button><button class="tf-btn" onclick="doTF(3,false,false)">False</button></div>
+    </div>
+    <div class="tf-row" id="tf4">
+      <div class="tf-stmt">Main program code such as <code>Track.__Seconds = 300</code> is a safe way to change the length of a track.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(4,true,false)">True</button><button class="tf-btn" onclick="doTF(4,false,false)">False</button></div>
+    </div>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════
+     SECTION 3 — INHERITANCE
+══════════════════════════════════════════════ -->
+<div style="margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid #d0d0d0;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #007BA6;">
+    <div style="min-width:36px;height:36px;border-radius:50%;background:#007BA6;color:#fff;font-size:14pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</div>
+    <div style="font-size:18pt;font-weight:700;color:#007BA6;">Inheritance</div>
+    <div style="margin-left:auto;font-size:10pt;font-weight:700;color:#007BA6;background:#e3f2fd;padding:4px 12px;border-radius:20px;white-space:nowrap;border:1px solid #b3d4e8;flex-shrink:0;">&#9679; ~15 minutes</div>
+  </div>
+  <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:20px 24px;margin-bottom:18px;">
+    <div class="recap"><strong class="h">Quick recap:</strong> <strong>Inheritance</strong> lets a <strong>subclass</strong> (child class) take on all the attributes and methods of a <strong>superclass</strong> (parent class), and add its own. Use the "is-a" test: a Song <em>is an</em> AudioItem. In Python, the subclass header is <code>class Song(AudioItem):</code> and its constructor calls <code>super().__init__(...)</code> first.</div>
+    <div class="g2" style="margin-bottom:16px;align-items:start;">
+      <div>
+        <div class="cls" style="max-width:300px;margin:0 auto;"><div class="cls-h">AudioItem</div><div class="cls-s"><span class="priv">-</span> Title : STRING<br><span class="priv">-</span> Seconds : INTEGER<br><span class="priv">-</span> Rating : INTEGER</div><div class="cls-s"><span class="pub">+</span> Constructor(Title, Seconds)<br><span class="pub">+</span> GetTitle(), GetSeconds()<br><span class="pub">+</span> GetRating(), SetRating()<br><span class="pub">+</span> Describe() : STRING</div></div>
+        <div style="text-align:center;font-size:20pt;color:#007BA6;line-height:1.3;">&#9651;<br><span style="font-size:11pt;font-weight:700;">inherit from AudioItem</span></div>
+        <div class="g2" style="gap:10px;">
+          <div class="cls" style=""><div class="cls-h">Song</div><div class="cls-s"><span class="priv">-</span> Artist : STRING</div><div class="cls-s"><span class="pub">+</span> GetArtist() : STRING</div></div>
+          <div class="cls" style=""><div class="cls-h">Podcast</div><div class="cls-s"><span class="priv">-</span> EpisodeNo : INTEGER</div><div class="cls-s"><span class="pub">+</span> GetEpisodeNo() : INTEGER</div></div>
+        </div>
+      </div>
+      <div class="code" style="font-size:11pt;"><div class="code-lbl">Python — two subclasses</div><span class="k">class</span> <span class="f">Song</span>(AudioItem):
+    <span class="k">def</span> <span class="f">__init__</span>(self, Title, Seconds, Artist):
+        <span class="f">super</span>().<span class="f">__init__</span>(Title, Seconds)
+        self.__Artist = Artist
+
+    <span class="k">def</span> <span class="f">GetArtist</span>(self):
+        <span class="k">return</span> self.__Artist
+
+<span class="k">class</span> <span class="f">Podcast</span>(AudioItem):
+    <span class="k">def</span> <span class="f">__init__</span>(self, Title, Seconds, EpisodeNo):
+        <span class="f">super</span>().<span class="f">__init__</span>(Title, Seconds)
+        self.__EpisodeNo = EpisodeNo
+
+    <span class="k">def</span> <span class="f">GetEpisodeNo</span>(self):
+        <span class="k">return</span> self.__EpisodeNo</div>
+    </div>
+    <div style="border-left:4px solid #9966FF;background:#f3e5f5;padding:12px 16px;border-radius:0 6px 6px 0;margin-bottom:14px;"><strong style="color:#9966FF;">What the subclass gets for free:</strong> a Song object can call <code>GetTitle()</code>, <code>GetSeconds()</code> and <code>SetRating()</code> even though they are not written in the Song class. They are inherited from AudioItem.</div>
+    <div class="exq">
+      <div class="exq-lbl">&#9998; Worked exam-style question</div>
+      <div class="exq-q">Describe what is meant by <strong>inheritance</strong>. Use an example from the TuneBox scenario in your answer. <span class="exq-mk">[2]</span></div>
+      <div style="font-size:13pt;color:#555;margin-bottom:10px;">Think of your answer first, then reveal the mark scheme.</div>
+      <button class="ans-btn" onclick="toggleAns(3,this)">&#128065; Show model answer</button>
+      <div class="ans" id="ans3"><strong>Mark scheme — one mark for each point:</strong><ul><li>A subclass takes on / reuses the attributes and methods of a superclass (and can add its own)</li><li>Example: Song (or Podcast) inherits Title, Seconds and SetRating() from AudioItem / a Song is an AudioItem</li></ul><div style="margin-top:8px;"><strong style="color:#e65100;">Examiner tip:</strong> Name <strong>both</strong> classes in your example and say which way round the relationship goes.</div></div>
+    </div>
+    <div style="border-left:4px solid #007BA6;background:#e3f2fd;padding:12px 16px;border-radius:0 6px 6px 0;"><strong style="color:#007BA6;">Benefit to quote in the exam:</strong> shared code is written once in the superclass, so it does not need to be repeated in every subclass, and a new type (e.g. Audiobook) can be added by writing a small subclass.</div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 8 — Multiple choice</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">In the Song constructor, what does <code>super().__init__(Title, Seconds)</code> do?</div>
+    <div id="opts8">
+      <div class="opt" onclick="pickOpt(8,'a',this)">a) It creates a second, separate AudioItem object</div>
+      <div class="opt" onclick="pickOpt(8,'b',this)">b) It calls the AudioItem constructor so the inherited attributes Title, Seconds and Rating are set up for the Song</div>
+      <div class="opt" onclick="pickOpt(8,'c',this)">c) It makes Title and Seconds public</div>
+      <div class="opt" onclick="pickOpt(8,'d',this)">d) It overrides the AudioItem constructor so it is never used</div>
+    </div>
+    <div class="fb" id="fb8"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#8644; Activity 9 — Sort: where does each member belong?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">A school system has <code>Student</code> and <code>Teacher</code> classes. Both have a name and an email address. Students also have a year group; teachers also have a subject. Drag each member into the class where it should be written.</div>
+    <div class="drag-bank" id="bank9">
+      <div class="drag-chip" draggable="true">Subject</div>
+      <div class="drag-chip" draggable="true">Name</div>
+      <div class="drag-chip" draggable="true">YearGroup</div>
+      <div class="drag-chip" draggable="true">GetEmail()</div>
+      <div class="drag-chip" draggable="true">Email</div>
+      <div class="drag-chip" draggable="true">GetSubject()</div>
+      <div class="drag-chip" draggable="true">GetYearGroup()</div>
+    </div>
+    <div class="g3" style="margin-bottom:12px;">
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#007BA6;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Person (superclass)</div>
+        <div id="sort9-0" class="sort-zone drag-bank" style="border-color:#007BA6;background:#f0f8ff;min-height:110px;flex-direction:column;"></div>
+      </div>
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Student only</div>
+        <div id="sort9-1" class="sort-zone drag-bank" style="border-color:#e65100;background:#fffaf3;min-height:110px;flex-direction:column;"></div>
+      </div>
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#388e3c;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Teacher only</div>
+        <div id="sort9-2" class="sort-zone drag-bank" style="border-color:#388e3c;background:#f0f8f0;min-height:110px;flex-direction:column;"></div>
+      </div>
+    </div>
+    <button class="check-btn" id="btn9" onclick="checkSort9()">&#10003; Check my sort</button>
+    <div class="drag-result" id="res9"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9707; Activity 10 — Write the new subclass</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">TuneBox adds an <code>Audiobook</code> class. An audiobook is an AudioItem with an extra private attribute <code>Narrator</code> and a getter for it. Complete the code. Three chips are not needed.</div>
+    <div class="drag-bank" id="bank10">
+      <div class="drag-chip" draggable="true">Song</div>
+      <div class="drag-chip" draggable="true">return self.__Narrator</div>
+      <div class="drag-chip" draggable="true">self.__Title = Title</div>
+      <div class="drag-chip" draggable="true">super().__init__(Title, Seconds)</div>
+      <div class="drag-chip" draggable="true">AudioItem</div>
+      <div class="drag-chip" draggable="true">print(self.__Narrator)</div>
+      <div class="drag-chip" draggable="true">self.__Narrator = Narrator</div>
+    </div>
+    <div style="background:#1e1e2e;border-radius:6px;padding:16px 20px;font-family:'Courier New',monospace;font-size:12.5pt;line-height:2.8;color:#cdd6f4;overflow-x:auto;">
+      class Audiobook(<span id="dz10a" class="drop-zone">?</span>):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, Title, Seconds, Narrator):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz10b" class="drop-zone" style="min-width:300px;">?</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz10c" class="drop-zone" style="min-width:280px;">?</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;def GetNarrator(self):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz10d" class="drop-zone" style="min-width:240px;">?</span>
+    </div>
+    <button class="check-btn" id="btn10" onclick="checkDrop10()">&#10003; Check my answers</button>
+    <div class="drag-result" id="res10"></div>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════
+     SECTION 4 — POLYMORPHISM & OVERRIDING
+══════════════════════════════════════════════ -->
+<div style="margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid #d0d0d0;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #007BA6;">
+    <div style="min-width:36px;height:36px;border-radius:50%;background:#007BA6;color:#fff;font-size:14pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+    <div style="font-size:18pt;font-weight:700;color:#007BA6;">Polymorphism &amp; Overriding</div>
+    <div style="margin-left:auto;font-size:10pt;font-weight:700;color:#007BA6;background:#e3f2fd;padding:4px 12px;border-radius:20px;white-space:nowrap;border:1px solid #b3d4e8;flex-shrink:0;">&#9679; ~15 minutes</div>
+  </div>
+  <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:20px 24px;margin-bottom:18px;">
+    <div class="recap"><strong class="h">Quick recap:</strong> <strong>Polymorphism</strong> means the same method call behaves differently depending on the class of the object it is called on. It happens when a subclass <strong>overrides</strong> a method: it redefines a method it inherited, using the <em>same name</em>.</div>
+    <div class="g2 g2w" style="margin-bottom:16px;align-items:start;">
+      <div class="code" style="font-size:11pt;"><div class="code-lbl">Python — Describe() is overridden</div><span class="k">class</span> <span class="f">AudioItem</span>:
+    <span class="cm"># ... as before ...</span>
+    <span class="k">def</span> <span class="f">Describe</span>(self):
+        <span class="k">return</span> self.__Title
+
+<span class="k">class</span> <span class="f">Song</span>(AudioItem):
+    <span class="cm"># ... as before ...</span>
+    <span class="k">def</span> <span class="f">Describe</span>(self):                  <span class="cm"># overrides</span>
+        <span class="k">return</span> self.<span class="f">GetTitle</span>() + <span class="s">" by "</span> + self.__Artist
+
+<span class="k">class</span> <span class="f">Podcast</span>(AudioItem):
+    <span class="cm"># ... as before ...</span>
+    <span class="k">def</span> <span class="f">Describe</span>(self):                  <span class="cm"># overrides</span>
+        <span class="k">return</span> <span class="s">"Episode "</span> + <span class="f">str</span>(self.__EpisodeNo) + <span class="s">": "</span> + self.<span class="f">GetTitle</span>()</div>
+      <div>
+        <div class="code" style="margin-bottom:12px;"><div class="code-lbl">Main program</div>S = <span class="f">Song</span>(<span class="s">"Sunrise"</span>, <span class="v">210</span>, <span class="s">"The Owls"</span>)
+P = <span class="f">Podcast</span>(<span class="s">"Space Facts"</span>, <span class="v">1500</span>, <span class="v">12</span>)
+<span class="f">print</span>(S.<span class="f">Describe</span>())
+<span class="f">print</span>(P.<span class="f">Describe</span>())</div>
+        <div style="background:#f5f5f5;border:1px solid #d0d0d0;border-radius:8px;padding:14px 16px;">
+          <div style="font-size:13pt;font-weight:700;color:#333;margin-bottom:6px;">Output</div>
+          <code>Sunrise by The Owls</code><br><code>Episode 12: Space Facts</code>
+          <p style="margin:8px 0 0;font-size:12.5pt;">Same call, <code>Describe()</code>, but different results, because each object uses its own class's version.</p>
+        </div>
+      </div>
+    </div>
+    <div style="border-left:4px solid #9966FF;background:#f3e5f5;padding:12px 16px;border-radius:0 6px 6px 0;margin-bottom:14px;"><strong style="color:#9966FF;">Why GetTitle() and not self.__Title?</strong> Title is private to AudioItem, so the Song class cannot read <code>self.__Title</code>. It uses the inherited public getter <code>self.GetTitle()</code> instead. This is encapsulation and inheritance working together.</div>
+    <div class="exq">
+      <div class="exq-lbl">&#9998; Worked exam-style question</div>
+      <div class="exq-q">Explain how the <code>Describe()</code> method in TuneBox demonstrates <strong>polymorphism</strong>. <span class="exq-mk">[2]</span></div>
+      <div style="font-size:13pt;color:#555;margin-bottom:10px;">Think of your answer first, then reveal the mark scheme.</div>
+      <button class="ans-btn" onclick="toggleAns(4,this)">&#128065; Show model answer</button>
+      <div class="ans" id="ans4"><strong>Mark scheme — one mark for each point:</strong><ul><li>Song and Podcast override Describe() / each class has its own method with the same name as the one in AudioItem</li><li>The same call Describe() gives a different result depending on the object's class, e.g. "title by artist" for a Song and "Episode n: title" for a Podcast</li></ul><div style="margin-top:8px;"><strong style="color:#e65100;">Examiner tip:</strong> Two marks need two different points: <em>what</em> is overridden, and <em>how</em> the result changes for each class.</div></div>
+    </div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 11 — Multiple choice — trace the code</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Using the classes above, what is output?</div>
+<div class="code" style="margin-bottom:14px;">Items = [<span class="f">AudioItem</span>(<span class="s">"Rain Sounds"</span>, <span class="v">600</span>),
+         <span class="f">Song</span>(<span class="s">"Sunrise"</span>, <span class="v">210</span>, <span class="s">"The Owls"</span>),
+         <span class="f">Podcast</span>(<span class="s">"Space Facts"</span>, <span class="v">1500</span>, <span class="v">12</span>)]
+<span class="k">for</span> Item <span class="k">in</span> Items:
+    <span class="f">print</span>(Item.<span class="f">Describe</span>())</div>
+    <div id="opts11">
+      <div class="opt" onclick="pickOpt(11,'a',this)">a) Rain Sounds / Sunrise / Space Facts</div>
+      <div class="opt" onclick="pickOpt(11,'b',this)">b) Rain Sounds / Sunrise by The Owls / Episode 12: Space Facts</div>
+      <div class="opt" onclick="pickOpt(11,'c',this)">c) An error, because AudioItem objects cannot use Describe()</div>
+      <div class="opt" onclick="pickOpt(11,'d',this)">d) Rain Sounds by None / Sunrise by The Owls / Episode 12: Space Facts</div>
+    </div>
+    <div class="fb" id="fb11"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9998; Activity 12 — Fill in the gap</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">When a subclass provides its own version of an inherited method, using the same name, this is called <span style="background:#1e1e2e;color:#fab387;font-family:'Courier New',monospace;padding:2px 10px;border-radius:4px;font-size:13pt;">&#9744;</span>.</div>
+    <div id="opts12w">
+      <span class="wopt" onclick="pickWopt(12,'a',this)">overloading</span>
+      <span class="wopt" onclick="pickWopt(12,'b',this)">overriding</span>
+      <span class="wopt" onclick="pickWopt(12,'c',this)">instantiation</span>
+      <span class="wopt" onclick="pickWopt(12,'d',this)">containment</span>
+    </div>
+    <div class="fb" id="fb12"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 13 — Multiple choice — which answer scores?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Three students answered: <em>"Explain how Describe() demonstrates polymorphism."</em> <span class="exq-mk">[2]</span> Which answer would get <strong>both</strong> marks?</div>
+    <div id="opts13">
+      <div class="opt" onclick="pickOpt(13,'a',this)">a) "Polymorphism means many forms."</div>
+      <div class="opt" onclick="pickOpt(13,'b',this)">b) "Song and Podcast both override Describe(), so calling Describe() on a Song returns the title and artist, but on a Podcast it returns the episode number and title."</div>
+      <div class="opt" onclick="pickOpt(13,'c',this)">c) "Describe() is a method that returns a string."</div>
+      <div class="opt" onclick="pickOpt(13,'d',this)">d) "Song inherits from AudioItem so it has all of its attributes."</div>
+    </div>
+    <div class="fb" id="fb13"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 14 — True or False?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Click True or False for each statement about polymorphism.</div>
+    <div class="tf-row" id="tf5">
+      <div class="tf-stmt">An overriding method must have exactly the same name as the method in the superclass.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(5,true,true)">True</button><button class="tf-btn" onclick="doTF(5,false,true)">False</button></div>
+    </div>
+    <div class="tf-row" id="tf6">
+      <div class="tf-stmt">Polymorphism lets one loop call Describe() on a list of mixed Song and Podcast objects.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(6,true,true)">True</button><button class="tf-btn" onclick="doTF(6,false,true)">False</button></div>
+    </div>
+    <div class="tf-row" id="tf7">
+      <div class="tf-stmt">If Podcast did not override Describe(), calling it on a Podcast would cause an error.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(7,true,false)">True</button><button class="tf-btn" onclick="doTF(7,false,false)">False</button></div>
+    </div>
+    <div class="tf-row" id="tf8">
+      <div class="tf-stmt">Polymorphism and inheritance are exactly the same thing.</div>
+      <div class="tf-btns"><button class="tf-btn" onclick="doTF(8,true,false)">True</button><button class="tf-btn" onclick="doTF(8,false,false)">False</button></div>
+    </div>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════
+     SECTION 5 — CONTAINMENT (AGGREGATION)
+══════════════════════════════════════════════ -->
+<div style="margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid #d0d0d0;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #007BA6;">
+    <div style="min-width:36px;height:36px;border-radius:50%;background:#007BA6;color:#fff;font-size:14pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</div>
+    <div style="font-size:18pt;font-weight:700;color:#007BA6;">Containment (Aggregation)</div>
+    <div style="margin-left:auto;font-size:10pt;font-weight:700;color:#007BA6;background:#e3f2fd;padding:4px 12px;border-radius:20px;white-space:nowrap;border:1px solid #b3d4e8;flex-shrink:0;">&#9679; ~15 minutes</div>
+  </div>
+  <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:20px 24px;margin-bottom:18px;">
+    <div class="recap"><strong class="h">Quick recap:</strong> <strong>Containment</strong> (also called <strong>aggregation</strong>) is a "has-a" relationship: one class stores objects of another class as an attribute, usually in a list. A playlist <em>has</em> audio items; it is not a kind of audio item, so inheritance would be wrong.</div>
+    <div class="g2" style="margin-bottom:16px;align-items:start;">
+      <div>
+        <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;font-size:10.5pt;">
+          <div class="cls" style="font-size:10.5pt;"><div class="cls-h">Playlist</div><div class="cls-s"><span class="priv">-</span> Name : STRING<br><span class="priv">-</span> Items : list</div><div class="cls-s"><span class="pub">+</span> AddItem(NewItem)<br><span class="pub">+</span> TotalSeconds() : INTEGER</div></div>
+          <svg width="60" height="40" viewBox="0 0 80 40" aria-label="aggregation link"><polygon points="2,20 14,12 26,20 14,28" fill="#fff" stroke="#007BA6" stroke-width="2"/><line x1="26" y1="20" x2="78" y2="20" stroke="#007BA6" stroke-width="2"/><text x="52" y="12" font-size="10" fill="#007BA6" text-anchor="middle" font-family="Lato,sans-serif">0..*</text></svg>
+          <div class="cls" style="font-size:10.5pt;"><div class="cls-h" style="font-size:11pt;">AudioItem</div><div class="cls-s">…</div></div>
+        </div>
+        <div style="font-size:12.5pt;color:#555;margin-top:10px;">The hollow diamond on the Playlist end shows aggregation. Because Song and Podcast inherit from AudioItem, one list can hold a mixture of both.</div>
+      </div>
+      <div class="code" style="font-size:11pt;"><div class="code-lbl">Python — the Playlist class</div><span class="k">class</span> <span class="f">Playlist</span>:
+    <span class="k">def</span> <span class="f">__init__</span>(self, Name):
+        self.__Name = Name
+        self.__Items = []
+
+    <span class="k">def</span> <span class="f">AddItem</span>(self, NewItem):
+        self.__Items.<span class="f">append</span>(NewItem)
+
+    <span class="k">def</span> <span class="f">TotalSeconds</span>(self):
+        Total = <span class="v">0</span>
+        <span class="k">for</span> Item <span class="k">in</span> self.__Items:
+            Total = Total + Item.<span class="f">GetSeconds</span>()
+        <span class="k">return</span> Total</div>
+    </div>
+    <div class="g2" style="margin-bottom:16px;">
+      <div style="background:#e3f2fd;border-radius:8px;padding:16px 18px;border-top:4px solid #007BA6;">
+        <div style="font-weight:700;color:#007BA6;font-size:14pt;margin-bottom:8px;">Inheritance = "is-a"</div>
+        <p style="margin:0;font-size:13pt;">A Song <em>is an</em> AudioItem. The subclass gets the superclass's members.</p>
+      </div>
+      <div style="background:#e8f5e9;border-radius:8px;padding:16px 18px;border-top:4px solid #388e3c;">
+        <div style="font-weight:700;color:#388e3c;font-size:14pt;margin-bottom:8px;">Containment = "has-a"</div>
+        <p style="margin:0;font-size:13pt;">A Playlist <em>has</em> AudioItems. It stores them and calls their public methods.</p>
+      </div>
+    </div>
+    <div class="exq">
+      <div class="exq-lbl">&#9998; Worked exam-style question</div>
+      <div class="exq-q">Explain why the Playlist class uses <strong>containment</strong> rather than inheritance. <span class="exq-mk">[2]</span></div>
+      <div style="font-size:13pt;color:#555;margin-bottom:10px;">Think of your answer first, then reveal the mark scheme.</div>
+      <button class="ans-btn" onclick="toggleAns(5,this)">&#128065; Show model answer</button>
+      <div class="ans" id="ans5"><strong>Mark scheme — one mark for each point:</strong><ul><li>A playlist is not a type of audio item / it fails the "is-a" test</li><li>A playlist has / stores a collection of AudioItem objects (in its Items list), which is a "has-a" relationship</li></ul><div style="margin-top:8px;"><strong style="color:#e65100;">Examiner tip:</strong> Use the "is-a" and "has-a" tests with the real class names from the question.</div></div>
+    </div>
+    <div style="border-left:4px solid #e65100;background:#fff3e0;padding:12px 16px;border-radius:0 6px 6px 0;"><strong style="color:#e65100;">Watch out:</strong> in TotalSeconds(), <code>return Total</code> must be <em>after</em> the loop. Inside the loop it would stop after adding only the first item.</div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#8644; Activity 15 — Sort: "is-a" or "has-a"?</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Drag each pair of classes into the relationship it shows.</div>
+    <div class="drag-bank" id="bank15">
+      <div class="drag-chip" draggable="true">Teacher – Person</div>
+      <div class="drag-chip" draggable="true">School – Students</div>
+      <div class="drag-chip" draggable="true">Car – Wheels</div>
+      <div class="drag-chip" draggable="true">Dog – Animal</div>
+      <div class="drag-chip" draggable="true">Playlist – AudioItems</div>
+      <div class="drag-chip" draggable="true">Podcast – AudioItem</div>
+    </div>
+    <div class="g2" style="margin-bottom:12px;">
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#007BA6;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Inheritance ("is-a")</div>
+        <div id="sort15-0" class="sort-zone drag-bank" style="border-color:#007BA6;background:#f0f8ff;min-height:110px;flex-direction:column;"></div>
+      </div>
+      <div>
+        <div style="font-size:13pt;font-weight:700;color:#e65100;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;text-align:center;">Containment ("has-a")</div>
+        <div id="sort15-1" class="sort-zone drag-bank" style="border-color:#e65100;background:#fffaf3;min-height:110px;flex-direction:column;"></div>
+      </div>
+    </div>
+    <button class="check-btn" id="btn15" onclick="checkSort15()">&#10003; Check my sort</button>
+    <div class="drag-result" id="res15"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9707; Activity 16 — Put the method in order</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Add a method to Playlist that returns how many of its items have been rated (Rating greater than 0). Drag the lines into order. The indentation is shown by the slots.</div>
+    <div class="drag-bank" id="bank16">
+      <div class="drag-chip" draggable="true">return Count</div>
+      <div class="drag-chip" draggable="true">if Item.GetRating() &gt; 0:</div>
+      <div class="drag-chip" draggable="true">def CountRated(self):</div>
+      <div class="drag-chip" draggable="true">Count = Count + 1</div>
+      <div class="drag-chip" draggable="true">for Item in self.__Items:</div>
+      <div class="drag-chip" draggable="true">Count = 0</div>
+    </div>
+    <div style="background:#1e1e2e;border-radius:6px;padding:16px 20px;overflow-x:auto;">
+      <div class="slot-line"><span class="ln">1</span><span id="dz16a" class="drop-zone" style="min-width:320px;">?</span></div>
+      <div class="slot-line"><span class="ln">2</span><span style="width:36px;"></span><span id="dz16b" class="drop-zone" style="min-width:284px;">?</span></div>
+      <div class="slot-line"><span class="ln">3</span><span style="width:36px;"></span><span id="dz16c" class="drop-zone" style="min-width:284px;">?</span></div>
+      <div class="slot-line"><span class="ln">4</span><span style="width:72px;"></span><span id="dz16d" class="drop-zone" style="min-width:248px;">?</span></div>
+      <div class="slot-line"><span class="ln">5</span><span style="width:108px;"></span><span id="dz16e" class="drop-zone" style="min-width:212px;">?</span></div>
+      <div class="slot-line"><span class="ln">6</span><span style="width:36px;"></span><span id="dz16f" class="drop-zone" style="min-width:284px;">?</span></div>
+    </div>
+    <button class="check-btn" id="btn16" onclick="checkDrop16()">&#10003; Check my order</button>
+    <div class="drag-result" id="res16"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 17 — Multiple choice</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Why does <code>TotalSeconds()</code> use <code>Item.GetSeconds()</code> instead of <code>Item.__Seconds</code>?</div>
+    <div id="opts17">
+      <div class="opt" onclick="pickOpt(17,'a',this)">a) GetSeconds() runs faster</div>
+      <div class="opt" onclick="pickOpt(17,'b',this)">b) Seconds is private to AudioItem, so Playlist can only read it through the public getter (encapsulation)</div>
+      <div class="opt" onclick="pickOpt(17,'c',this)">c) Item.__Seconds would return the value in minutes</div>
+      <div class="opt" onclick="pickOpt(17,'d',this)">d) Playlist is a subclass of AudioItem, so it must use getters</div>
+    </div>
+    <div class="fb" id="fb17"></div>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════
+     SECTION 6 — EXAM PRACTICE: PUTTING IT ALL TOGETHER
+══════════════════════════════════════════════ -->
+<div style="margin-bottom:48px;padding-bottom:48px;border-bottom:1px solid #d0d0d0;">
+  <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #007BA6;">
+    <div style="min-width:36px;height:36px;border-radius:50%;background:#007BA6;color:#fff;font-size:14pt;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">6</div>
+    <div style="font-size:18pt;font-weight:700;color:#007BA6;">Exam Practice: Putting It All Together</div>
+    <div style="margin-left:auto;font-size:10pt;font-weight:700;color:#007BA6;background:#e3f2fd;padding:4px 12px;border-radius:20px;white-space:nowrap;border:1px solid #b3d4e8;flex-shrink:0;">&#9679; ~15 minutes</div>
+  </div>
+  <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:20px 24px;margin-bottom:18px;">
+    <p style="margin:0 0 14px;">Real exam questions mix all of the terms together in one scenario. Here is a new one. Read it carefully: the activities below use only this scenario.</p>
+    <div style="border:2px dashed #007BA6;background:#f0f8ff;border-radius:6px;padding:14px 18px;margin-bottom:16px;font-size:13.5pt;">
+      A <strong>hotel</strong> stores details of its <u>rooms</u>. Each room has a <u>room number</u>, a <u>price per night</u> and whether it is <u>booked</u>. A <u>suite</u> is a special room that also records whether it has a <u>balcony</u>, and its price is always £50 more than the stored price. The hotel needs to <em>book</em> a room and <em>count</em> how many rooms are free.
+    </div>
+    <div class="g2" style="margin-bottom:16px;align-items:start;">
+      <div>
+        <div class="cls" style="margin-bottom:10px;"><div class="cls-h">Room</div><div class="cls-s"><span class="priv">-</span> RoomNo : INTEGER<br><span class="priv">-</span> Price : REAL<br><span class="priv">-</span> Booked : BOOLEAN</div><div class="cls-s"><span class="pub">+</span> Constructor(RoomNo, Price)<br><span class="pub">+</span> GetPrice() : REAL<br><span class="pub">+</span> IsBooked() : BOOLEAN<br><span class="pub">+</span> BookRoom() : BOOLEAN</div></div>
+        <div class="g2" style="gap:10px;">
+          <div class="cls" style=""><div class="cls-h">Suite (inherits Room)</div><div class="cls-s"><span class="priv">-</span> HasBalcony : BOOLEAN</div><div class="cls-s"><span class="pub">+</span> Constructor(RoomNo, Price, HasBalcony)<br><span class="pub">+</span> GetPrice() : REAL</div></div>
+          <div class="cls" style=""><div class="cls-h">Hotel</div><div class="cls-s"><span class="priv">-</span> Rooms : list</div><div class="cls-s"><span class="pub">+</span> AddRoom(NewRoom)<br><span class="pub">+</span> CountFree() : INTEGER</div></div>
+        </div>
+      </div>
+      <div class="code" style="font-size:11pt;"><div class="code-lbl">Python — Room and Hotel</div><span class="k">class</span> <span class="f">Room</span>:
+    <span class="k">def</span> <span class="f">__init__</span>(self, RoomNo, Price):
+        self.__RoomNo = RoomNo
+        self.__Price = Price
+        self.__Booked = <span class="k">False</span>
+
+    <span class="k">def</span> <span class="f">GetPrice</span>(self):
+        <span class="k">return</span> self.__Price
+
+    <span class="k">def</span> <span class="f">IsBooked</span>(self):
+        <span class="k">return</span> self.__Booked
+
+    <span class="k">def</span> <span class="f">BookRoom</span>(self):
+        <span class="k">if</span> self.__Booked:
+            <span class="k">return</span> <span class="k">False</span>
+        self.__Booked = <span class="k">True</span>
+        <span class="k">return</span> <span class="k">True</span>
+
+<span class="k">class</span> <span class="f">Hotel</span>:
+    <span class="k">def</span> <span class="f">__init__</span>(self):
+        self.__Rooms = []
+
+    <span class="k">def</span> <span class="f">AddRoom</span>(self, NewRoom):
+        self.__Rooms.<span class="f">append</span>(NewRoom)
+
+    <span class="k">def</span> <span class="f">CountFree</span>(self):
+        Count = <span class="v">0</span>
+        <span class="k">for</span> R <span class="k">in</span> self.__Rooms:
+            <span class="k">if</span> <span class="k">not</span> R.<span class="f">IsBooked</span>():
+                Count = Count + <span class="v">1</span>
+        <span class="k">return</span> Count</div>
+    </div>
+    <div style="font-size:13pt;font-weight:700;color:#007BA6;margin-bottom:10px;">Command words: what the examiner wants</div>
+    <div style="overflow-x:auto;margin-bottom:16px;">
+      <table class="cx-tbl">
+        <tr><th>Command word</th><th>What to write</th><th>Example answer (hotel)</th></tr>
+        <tr><td><strong>Identify</strong></td><td>Name it, taken from the scenario</td><td>"Suite"</td></tr>
+        <tr><td><strong>State</strong></td><td>A short fact or definition, no reason needed</td><td>"An instance is one object created from a class."</td></tr>
+        <tr><td><strong>Describe</strong></td><td>Say what it is or does, with detail</td><td>"Suite inherits RoomNo, Price and BookRoom() from Room and adds HasBalcony."</td></tr>
+        <tr><td><strong>Explain</strong></td><td>Say what happens <em>and why</em>, linked to the scenario</td><td>"Price is private so it can only be read through GetPrice(), which stops other code changing it."</td></tr>
+        <tr><td><strong>Write</strong></td><td>Working Python code</td><td>The Suite class (Activity 21)</td></tr>
+      </table>
+    </div>
+    <div style="border-left:4px solid #007BA6;background:#e3f2fd;padding:12px 16px;border-radius:0 6px 6px 0;"><strong style="color:#007BA6;">Exam technique:</strong> count the marks. A 2-mark "explain" question needs two separate points. Use the class and method names from the question in every answer.</div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9654; Activity 18 — Spot the OOP term in the scenario</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Each line is a piece of evidence from the hotel system. Choose the OOP term it shows.</div>
+    <div id="match2">
+      <div class="match-row"><div class="match-term">Suite(Room)</div><select class="match-sel" data-ans="inh"><option value="">— choose —</option><option value="poly">Polymorphism / overriding</option><option value="inst">Instantiation — creating an instance</option><option value="con">Containment (aggregation)</option><option value="enc">Encapsulation</option><option value="inh">Inheritance</option></select></div>
+      <div class="match-row"><div class="match-term">Hotel stores a list of Room objects</div><select class="match-sel" data-ans="con"><option value="">— choose —</option><option value="poly">Polymorphism / overriding</option><option value="inst">Instantiation — creating an instance</option><option value="con">Containment (aggregation)</option><option value="enc">Encapsulation</option><option value="inh">Inheritance</option></select></div>
+      <div class="match-row"><div class="match-term">Suite has its own GetPrice()</div><select class="match-sel" data-ans="poly"><option value="">— choose —</option><option value="poly">Polymorphism / overriding</option><option value="inst">Instantiation — creating an instance</option><option value="con">Containment (aggregation)</option><option value="enc">Encapsulation</option><option value="inh">Inheritance</option></select></div>
+      <div class="match-row"><div class="match-term">Price is private; read with GetPrice()</div><select class="match-sel" data-ans="enc"><option value="">— choose —</option><option value="poly">Polymorphism / overriding</option><option value="inst">Instantiation — creating an instance</option><option value="con">Containment (aggregation)</option><option value="enc">Encapsulation</option><option value="inh">Inheritance</option></select></div>
+      <div class="match-row"><div class="match-term">R1 = Room(101, 80.0)</div><select class="match-sel" data-ans="inst"><option value="">— choose —</option><option value="poly">Polymorphism / overriding</option><option value="inst">Instantiation — creating an instance</option><option value="con">Containment (aggregation)</option><option value="enc">Encapsulation</option><option value="inh">Inheritance</option></select></div>
+    </div>
+    <button class="match-btn" id="match2-btn" onclick="checkMatch2()">&#10003; Check my answers</button>
+    <div class="match-result" id="match2-res"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#10003; Activity 19 — Multiple choice — trace the whole system</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Using the Room, Suite and Hotel classes, what is output? (Suite's GetPrice() returns the stored price plus 50.)</div>
+<div class="code" style="margin-bottom:14px;">H = <span class="f">Hotel</span>()
+R1 = <span class="f">Room</span>(<span class="v">101</span>, <span class="v">80.0</span>)
+S1 = <span class="f">Suite</span>(<span class="v">201</span>, <span class="v">150.0</span>, <span class="k">True</span>)
+H.<span class="f">AddRoom</span>(R1)
+H.<span class="f">AddRoom</span>(S1)
+S1.<span class="f">BookRoom</span>()
+<span class="f">print</span>(H.<span class="f">CountFree</span>(), S1.<span class="f">GetPrice</span>())</div>
+    <div id="opts19">
+      <div class="opt" onclick="pickOpt(19,'a',this)">a) 1 150.0</div>
+      <div class="opt" onclick="pickOpt(19,'b',this)">b) 1 200.0</div>
+      <div class="opt" onclick="pickOpt(19,'c',this)">c) 2 200.0</div>
+      <div class="opt" onclick="pickOpt(19,'d',this)">d) 0 200.0</div>
+    </div>
+    <div class="fb" id="fb19"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9654; Activity 20 — Match the question to the answer it needs</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Each question is about the hotel system. Choose the answer that would get full marks.</div>
+    <div id="match3">
+      <div class="match-row"><div class="match-term">Identify the superclass. [1]</div><select class="match-sel" data-ans="id"><option value="">— choose —</option><option value="ex">Not a type of room, but has a list of Rooms ("has-a")</option><option value="get">GetPrice()</option><option value="id">Room</option><option value="st">One object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">State what is meant by an instance. [1]</div><select class="match-sel" data-ans="st"><option value="">— choose —</option><option value="ex">Not a type of room, but has a list of Rooms ("has-a")</option><option value="get">GetPrice()</option><option value="id">Room</option><option value="st">One object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">Explain why Hotel uses containment. [2]</div><select class="match-sel" data-ans="ex"><option value="">— choose —</option><option value="ex">Not a type of room, but has a list of Rooms ("has-a")</option><option value="get">GetPrice()</option><option value="id">Room</option><option value="st">One object created from a class</option></select></div>
+      <div class="match-row"><div class="match-term">Identify one getter in Room. [1]</div><select class="match-sel" data-ans="get"><option value="">— choose —</option><option value="ex">Not a type of room, but has a list of Rooms ("has-a")</option><option value="get">GetPrice()</option><option value="id">Room</option><option value="st">One object created from a class</option></select></div>
+    </div>
+    <button class="match-btn" id="match3-btn" onclick="checkMatch3()">&#10003; Check my answers</button>
+    <div class="match-result" id="match3-res"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;margin-bottom:18px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9707; Activity 21 — Write the Suite class</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Complete the Suite class from the class diagram. A suite's GetPrice() must return the stored price plus 50. Two chips are not needed.</div>
+    <div class="drag-bank" id="bank21">
+      <div class="drag-chip" draggable="true">return self.__Price + 50</div>
+      <div class="drag-chip" draggable="true">Room</div>
+      <div class="drag-chip" draggable="true">self.__HasBalcony = HasBalcony</div>
+      <div class="drag-chip" draggable="true">Hotel</div>
+      <div class="drag-chip" draggable="true">super().__init__(RoomNo, Price)</div>
+      <div class="drag-chip" draggable="true">return super().GetPrice() + 50</div>
+    </div>
+    <div style="background:#1e1e2e;border-radius:6px;padding:16px 20px;font-family:'Courier New',monospace;font-size:12.5pt;line-height:2.8;color:#cdd6f4;overflow-x:auto;">
+      class Suite(<span id="dz21a" class="drop-zone">?</span>):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;def __init__(self, RoomNo, Price, HasBalcony):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz21b" class="drop-zone" style="min-width:300px;">?</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz21c" class="drop-zone" style="min-width:300px;">?</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;def GetPrice(self):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="dz21d" class="drop-zone" style="min-width:300px;">?</span>
+    </div>
+    <button class="check-btn" id="btn21" onclick="checkDrop21()">&#10003; Check my answers</button>
+    <div class="drag-result" id="res21"></div>
+  </div>
+  <div style="background:#fafafa;border:1px solid #d0d0d0;border-radius:6px;padding:18px 22px;">
+    <div style="font-size:11pt;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#00796B;margin-bottom:10px;">&#9998; Activity 22 — Review: fill in the gaps</div>
+    <div style="font-size:14pt;font-weight:700;color:#333;margin-bottom:12px;line-height:1.5;">Drag a word into each gap to complete the summary of the hotel system. Two chips are not needed.</div>
+    <div class="drag-bank" id="bank22">
+      <div class="drag-chip" draggable="true">containment</div>
+      <div class="drag-chip" draggable="true">recursion</div>
+      <div class="drag-chip" draggable="true">instance</div>
+      <div class="drag-chip" draggable="true">private</div>
+      <div class="drag-chip" draggable="true">overrides</div>
+      <div class="drag-chip" draggable="true">inheritance</div>
+      <div class="drag-chip" draggable="true">getter</div>
+      <div class="drag-chip" draggable="true">iteration</div>
+    </div>
+    <div style="background:#fff;border:1px solid #d0d0d0;border-radius:6px;padding:16px 20px;font-size:14pt;line-height:2.6;">
+      Suite is a subclass of Room, which is an example of <span id="dz22a" class="drop-zone">?</span>. Hotel stores a list of Room objects, which is <span id="dz22b" class="drop-zone">?</span>. Price is declared as <span id="dz22c" class="drop-zone">?</span> so it can only be read using the <span id="dz22d" class="drop-zone">?</span> GetPrice(). Suite <span id="dz22e" class="drop-zone">?</span> GetPrice() so it adds £50, and R1 is an <span id="dz22f" class="drop-zone">?</span> of the Room class.
+    </div>
+    <button class="check-btn" id="btn22" onclick="checkDrop22()">&#10003; Check my answers</button>
+    <div class="drag-result" id="res22"></div>
+  </div>
+</div>
+
+<!-- SUMMARY -->
+<div style="background:#007BA6;border-radius:8px;padding:28px 32px;margin-bottom:20px;">
+  <div style="font-size:16pt;font-weight:700;color:#ffffff;margin-bottom:16px;">&#10003; Summary — CIE 9618 Topic 20.1: Object-Oriented Techniques</div>
+  <div class="g2" style="gap:10px;">
+    <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:12px 16px;font-size:13pt;color:#fff;line-height:1.6;"><strong>Class, object, instance:</strong> a class is the blueprint; an object is one instance of it, created by calling the constructor. Attributes store data; methods act on it.</div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:12px 16px;font-size:13pt;color:#fff;line-height:1.6;"><strong>Encapsulation:</strong> data and methods are bundled in one class, and attributes are private (<code style="background:rgba(0,0,0,0.2);color:#fff;">self.__Name</code>), so they can only be reached through public methods.</div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:12px 16px;font-size:13pt;color:#fff;line-height:1.6;"><strong>Getters &amp; setters:</strong> a getter <em>returns</em> a private value; a setter <em>validates</em> a new value, then stores it. Not every attribute needs a setter.</div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:12px 16px;font-size:13pt;color:#fff;line-height:1.6;"><strong>Inheritance:</strong> a subclass ("is-a") gets the superclass's attributes and methods, adds its own, and calls <code style="background:rgba(0,0,0,0.2);color:#fff;">super().__init__()</code> in its constructor.</div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:12px 16px;font-size:13pt;color:#fff;line-height:1.6;"><strong>Polymorphism:</strong> a subclass overrides an inherited method with the same name, so the same call gives different results for each class.</div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:6px;padding:12px 16px;font-size:13pt;color:#fff;line-height:1.6;"><strong>Containment (aggregation):</strong> a class ("has-a") stores other objects in a private list and uses their public methods. In the exam, always link every term to the scenario.</div>
+  </div>
+</div>
+
+</div></div>
+<script>
+// ══════════════════════════════════════════════════
+//  WORKED EXAM QUESTIONS — reveal model answer
+// ══════════════════════════════════════════════════
+function toggleAns(n, btn) {
+  var a = document.getElementById('ans' + n);
+  var open = a.style.display === 'block';
+  a.style.display = open ? 'none' : 'block';
+  btn.innerHTML = open ? '&#128065; Show model answer' : '&#128065; Hide model answer';
+}
+
+// ══════════════════════════════════════════════════
+//  MCQ — pure JS, auto-submits on click
+// ══════════════════════════════════════════════════
+var mcqChosen = {};
+var MCQ_CORRECT = {"3": "b", "5": "b", "8": "b", "11": "b", "13": "b", "17": "b", "19": "b"};
+var MCQ_FB = {
+ "3": {
+  "ok": "&#10003; Correct! The constructor runs twice, so two instances are created. <code>C = A</code> does not create a new object: C is just another name for the same object as A.",
+  "a": "&#10007; The constructor <code>AudioItem(...)</code> is called twice, so two separate objects are created.",
+  "c": "&#10007; <code>C = A</code> does not call the constructor. C refers to the <em>same</em> object as A, so there are still only two instances.",
+  "d": "&#10007; An object is created (instantiated) as soon as the constructor is called — calling a method is not needed."
+ },
+ "5": {
+  "ok": "&#10003; Correct! A getter returns the value of a private attribute. This is precise enough for the mark.",
+  "a": "&#10007; Too vague — examiners will not credit an answer that just repeats the word \"get\". Say what it returns.",
+  "c": "&#10007; That describes a <strong>setter</strong>, which validates and changes a value.",
+  "d": "&#10007; That is the job of the <strong>constructor</strong>."
+ },
+ "8": {
+  "ok": "&#10003; Correct! super() refers to the superclass, so this runs the AudioItem constructor for the same object, setting Title, Seconds and Rating.",
+  "a": "&#10007; No new object is created. The superclass constructor runs on the <em>same</em> Song object.",
+  "c": "&#10007; Access does not change — the attributes stay private. super() just runs the superclass constructor.",
+  "d": "&#10007; The opposite: super().__init__() makes sure the superclass constructor <em>is</em> used."
+ },
+ "11": {
+  "ok": "&#10003; Correct! The plain AudioItem uses the superclass Describe() (just the title). Song and Podcast run their own overridden versions. This is polymorphism.",
+  "a": "&#10007; Song and Podcast override Describe(), so their own versions run, adding the artist and episode number.",
+  "c": "&#10007; AudioItem has its own Describe() method that returns the title, so there is no error.",
+  "d": "&#10007; AudioItem's version returns only the title. It has no Artist attribute and does not add \"by\"."
+ },
+ "13": {
+  "ok": "&#10003; Correct! It states that the method is overridden <em>and</em> explains how the same call gives different results for each class, using the scenario.",
+  "a": "&#10007; This is a memorised phrase with no link to the scenario. It would get no marks on its own.",
+  "c": "&#10007; True, but it does not mention overriding or different behaviour, so it does not explain polymorphism.",
+  "d": "&#10007; This describes <strong>inheritance</strong>, not polymorphism."
+ },
+ "17": {
+  "ok": "&#10003; Correct! Seconds is private to AudioItem. Playlist is a different class, so it must use the public getter. Each class protects its own data.",
+  "a": "&#10007; Speed is not the reason. Private attributes cannot be read from another class, so the getter must be used.",
+  "c": "&#10007; The value is the same; the problem is access. Private attributes can only be used inside their own class.",
+  "d": "&#10007; Playlist does not inherit from AudioItem — it <em>contains</em> AudioItems. It uses the getter because the attribute is private."
+ },
+ "19": {
+  "ok": "&#10003; Correct! Only the suite was booked, so one room (101) is free. S1 is a Suite, so its overridden GetPrice() returns 150.0 + 50 = 200.0.",
+  "a": "&#10007; S1 is a Suite, so the overridden GetPrice() runs and adds 50: 200.0.",
+  "c": "&#10007; S1.BookRoom() booked the suite, so only one room is free.",
+  "d": "&#10007; Room 101 was never booked, so it is still free: CountFree() returns 1."
+ }
+};
+function pickOpt(qNum, letter, el) {
+  if (mcqChosen[qNum] && mcqChosen[qNum].locked) return;
+  var box = el.parentNode;
+  box.querySelectorAll('.opt').forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+  mcqChosen[qNum] = { letter: letter, locked: false };
+  submitMCQ(qNum, letter);
+}
+
+function submitMCQ(qNum, letter) {
+  if (mcqChosen[qNum] && mcqChosen[qNum].locked) return;
+  var correct = MCQ_CORRECT[qNum];
+  var isOk = (letter === correct);
+  var box = document.getElementById('opts' + qNum);
+  var fb  = document.getElementById('fb' + qNum);
+  if (box) {
+    box.querySelectorAll('.opt').forEach(function(el) {
+      el.classList.add('locked');
+      var m = el.getAttribute('onclick').match(/pickOpt\(\d+,'([a-d])'/);
+      var v = m ? m[1] : '';
+      if (v === correct)           el.classList.add(isOk ? 'correct' : 'reveal');
+      else if (v === letter && !isOk) el.classList.add('wrong');
+    });
+  }
+  if (fb) {
+    fb.style.display = 'block';
+    var fd = MCQ_FB[qNum];
+    fb.className = 'fb ' + (isOk ? 'fb-ok' : 'fb-bad');
+    fb.innerHTML = isOk ? fd.ok : (fd[letter] || '&#10007; Not quite — the correct answer is highlighted in green above.');
+  }
+  if (mcqChosen[qNum]) mcqChosen[qNum].locked = true;
+}
+
+
+
+
+// ══════════════════════════════════════════════════
+//  WORD CHIPS
+// ══════════════════════════════════════════════════
+var woptChosen = {};
+var WOPT_CORRECT = {"4": "b", "12": "b"};
+var WOPT_FB = {
+ "4": {
+  "ok": "&#10003; Correct! Two underscores at the start of the name, e.g. <code>self.__Rating</code>, make the attribute private.",
+  "a": "&#10007; <code>self.</code> makes it an attribute of the object, but it is the <strong>two underscores</strong> that make it private.",
+  "c": "&#10007; Python has no <code>private</code> keyword. Start the name with <strong>two underscores</strong>.",
+  "d": "&#10007; \"Get\" is how getter <em>methods</em> are named. Privacy comes from <strong>two underscores</strong> at the start of the attribute name."
+ },
+ "12": {
+  "ok": "&#10003; Correct! Redefining an inherited method with the same name is <strong>overriding</strong>, and it is what makes polymorphism possible.",
+  "a": "&#10007; Overloading means several methods with the same name but different parameters. Redefining an inherited method is <strong>overriding</strong>.",
+  "c": "&#10007; Instantiation means creating an object. Redefining an inherited method is <strong>overriding</strong>.",
+  "d": "&#10007; Containment is a \"has-a\" relationship. Redefining an inherited method is <strong>overriding</strong>."
+ }
+};
+function pickWopt(qNum, letter, el) {
+  if (woptChosen[qNum] && woptChosen[qNum].locked) return;
+  var container = el.parentNode;
+  container.querySelectorAll('.wopt').forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+  woptChosen[qNum] = { letter: letter, locked: false };
+  var correct = WOPT_CORRECT[qNum];
+  var isOk = (letter === correct);
+  container.querySelectorAll('.wopt').forEach(function(w) {
+    w.classList.add('locked');
+    var m = w.getAttribute('onclick').match(/pickWopt\(\d+,'([a-d])'/);
+    var v = m ? m[1] : '';
+    if (v === correct)           w.classList.add(isOk ? 'correct' : 'reveal');
+    else if (v === letter && !isOk) w.classList.add('wrong');
+  });
+  var fb = document.getElementById('fb' + qNum);
+  if (fb) {
+    fb.style.display = 'block';
+    var fd = WOPT_FB[qNum];
+    fb.className = 'fb ' + (isOk ? 'fb-ok' : 'fb-bad');
+    fb.innerHTML = isOk ? fd.ok : (fd[letter] || '&#10007; Not quite — the correct answer is highlighted above.');
+  }
+  woptChosen[qNum] = { letter: letter, locked: true };
+}
+
+
+// ══════════════════════════════════════════════════
+//  TRUE / FALSE
+// ══════════════════════════════════════════════════
+var TF_DATA = {
+ "1": {
+  "ok": "&#10003; True! This is a full-mark definition: bundling data and methods together <em>and</em> restricting access to the data.",
+  "bad": "&#10007; This is True. It is the standard definition of encapsulation."
+ },
+ "2": {
+  "ok": "&#10003; Correct — False! A setter <em>stores</em> (sets) the new value, usually after validating it.",
+  "bad": "&#10007; This is False. A setter changes the value of a private attribute; it does not just print it."
+ },
+ "3": {
+  "ok": "&#10003; Correct — False! Leave out a setter when a value should never change, e.g. a Title. This makes it read-only.",
+  "bad": "&#10007; This is False. Only add setters for values that really should change."
+ },
+ "4": {
+  "ok": "&#10003; Correct — False! The attribute is private, so this does not change the object's real attribute. Changes must go through a method.",
+  "bad": "&#10007; This is False. Private attributes cannot be accessed from outside the class; use a public method instead."
+ },
+ "5": {
+  "ok": "&#10003; True! If the name were different, it would be a new method, not an override.",
+  "bad": "&#10007; This is True. Overriding only works when the subclass method uses the same name."
+ },
+ "6": {
+  "ok": "&#10003; True! Each object runs its own version, so the loop does not need to check what type each item is.",
+  "bad": "&#10007; This is True. Each object automatically uses the Describe() of its own class."
+ },
+ "7": {
+  "ok": "&#10003; Correct — False! The Podcast would simply use the inherited AudioItem version, which returns the title.",
+  "bad": "&#10007; This is False. Without an override, the inherited superclass method is used."
+ },
+ "8": {
+  "ok": "&#10003; Correct — False! Inheritance passes members down; polymorphism is the same call behaving differently because of overriding.",
+  "bad": "&#10007; This is False. Polymorphism depends on inheritance but is a different idea: the same method call behaves differently for each class."
+ }
+};
+function doTF(n, userAns, correctAns) {
+  var row = document.getElementById('tf' + n);
+  if (!row || row.classList.contains('done')) return;
+  row.classList.add('done');
+  var isOk = (userAns === correctAns);
+  row.querySelectorAll('.tf-btn').forEach(function(b) {
+    var bT = b.textContent.trim() === 'True';
+    if (bT === userAns)             b.className = isOk ? 'tf-btn ok' : 'tf-btn bad';
+    if (!isOk && bT === correctAns) b.className = 'tf-btn show';
+  });
+  var fb = document.createElement('div');
+  fb.style.cssText = 'margin-top:8px;padding:10px 14px;border-radius:6px;font-size:13pt;line-height:1.6;font-family:Lato,sans-serif;';
+  fb.style.background = isOk ? '#e8f5e9' : '#ffebee';
+  fb.style.color      = isOk ? '#1b5e20' : '#7f0000';
+  fb.style.border     = isOk ? '1px solid #81c784' : '1px solid #ef9a9a';
+  fb.innerHTML = isOk ? TF_DATA[n].ok : TF_DATA[n].bad;
+  row.appendChild(fb);
+}
+
+
+// ══════════════════════════════════════════════════
+//  MATCH ACTIVITIES
+// ══════════════════════════════════════════════════
+function runMatch(matchId, btnId, resId, okMsg, badMsg) {
+  var rows = document.querySelectorAll('#' + matchId + ' .match-row');
+  var allOk = true;
+  rows.forEach(function(row) {
+    row.classList.remove('ok','bad');
+    var sel = row.querySelector('.match-sel');
+    if (sel.value === sel.getAttribute('data-ans')) row.classList.add('ok');
+    else { row.classList.add('bad'); allOk = false; }
+  });
+  var res = document.getElementById(resId);
+  res.style.display = 'block';
+  if (allOk) {
+    res.className = 'match-result fb fb-ok';
+    res.innerHTML = '&#10003; ' + okMsg;
+    document.getElementById(btnId).disabled = true;
+    rows.forEach(function(r){ r.querySelector('.match-sel').disabled = true; });
+  } else {
+    res.className = 'match-result fb fb-bad';
+    res.innerHTML = '&#10007; ' + badMsg;
+  }
+}
+
+
+
+function checkMatch1() {
+  runMatch('match1','match1-btn','match1-res',
+    "All correct! Learn these definitions word for word: they are the 1-mark answers to \"State what is meant by\u2026\" questions.",
+    "One or more are wrong \u2014 check those in red. Hint: the blueprint is the class; the objects made from it are instances.");
+}
+function checkMatch2() {
+  runMatch('match2','match2-btn','match2-res',
+    "All correct! Being able to point to the exact evidence in a scenario is exactly what \"explain, using the scenario\" questions reward.",
+    "One or more are wrong. Hint: \"is-a\" is inheritance, \"has-a\" is containment, a redefined method is polymorphism, a private attribute with a getter is encapsulation.");
+}
+function checkMatch3() {
+  runMatch('match3','match3-btn','match3-res',
+    "All correct! Notice how short the \"identify\" and \"state\" answers are, and how the \"explain\" answer gives two linked points.",
+    "One or more are wrong. Hint: \"identify\" answers are a single name from the scenario; \"explain\" answers give a reason.");
+}
+
+// ══════════════════════════════════════════════════
+//  DRAG & DROP ENGINE
+// ══════════════════════════════════════════════════
+var _drag = null;
+document.addEventListener('dragstart', function(e) {
+  var t = e.target;
+  if (t.classList.contains('drag-chip') && !t.classList.contains('locked')) {
+    _drag = t; e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', t.textContent);
+  }
+});
+document.addEventListener('dragover', function(e) {
+  var t = e.target;
+  while (t && t !== document.body) {
+    if (t.classList.contains('drop-zone') || t.classList.contains('drag-bank') || t.classList.contains('sort-zone')) {
+      e.preventDefault(); t.classList.add('drag-over'); return;
+    }
+    t = t.parentNode;
+  }
+});
+document.addEventListener('dragleave', function(e) {
+  var t = e.target; if (t && t.classList) t.classList.remove('drag-over');
+});
+document.addEventListener('drop', function(e) {
+  e.preventDefault(); if (!_drag) return;
+  var tgt = e.target;
+  while (tgt && tgt !== document.body) {
+    if (tgt.classList.contains('drop-zone') || tgt.classList.contains('drag-bank') || tgt.classList.contains('sort-zone')) break;
+    tgt = tgt.parentNode;
+  }
+  if (!tgt || tgt === document.body) return;
+  tgt.classList.remove('drag-over');
+  if (tgt.classList.contains('drop-zone')) {
+    var displaced = tgt.querySelector('.drag-chip');
+    if (displaced) {
+      var oid = displaced.getAttribute('data-origin') || '';
+      var ori = oid ? document.getElementById(oid) : _drag.parentNode;
+      if (ori) ori.appendChild(displaced);
+      displaced.removeAttribute('data-origin');
+    }
+    _drag.setAttribute('data-origin', _drag.parentNode.id || '');
+    _drag.parentNode.removeChild(_drag);
+    tgt.appendChild(_drag);
+  } else {
+    if (tgt === _drag.parentNode) { _drag = null; return; }
+    _drag.removeAttribute('data-origin');
+    _drag.parentNode.removeChild(_drag);
+    tgt.appendChild(_drag);
+  }
+  _drag = null;
+});
+
+function getDZ(id) { var z=document.getElementById(id); var c=z?z.querySelector('.drag-chip'):null; return c?c.textContent.trim():''; }
+function getSort(id) { var z=document.getElementById(id); if(!z)return[]; return Array.from(z.querySelectorAll('.drag-chip')).map(function(c){return c.textContent.trim();}); }
+
+// ══════════════════════════════════════════════════
+//  SLOT CHECKER — used by activities 7, 11, 16, 18, 22
+// ══════════════════════════════════════════════════
+var DONE = {};
+function lockChips(n, ids) {
+  document.querySelectorAll('#bank' + n + ' .drag-chip').forEach(function(c){ c.classList.add('locked'); });
+  ids.forEach(function(id){ var z=document.getElementById(id); if(z) z.querySelectorAll('.drag-chip').forEach(function(c){ c.classList.add('locked'); }); });
+}
+function checkSlots(n, ids, ans, okMsg, hints, emptyMsg) {
+  if (DONE[n]) return;
+  var vals = ids.map(getDZ);
+  var res = document.getElementById('res' + n);
+  res.style.display = 'block';
+  if (vals.some(function(v){ return v === ''; })) {
+    res.className = 'drag-result fb fb-bad';
+    res.innerHTML = '&#10007; ' + emptyMsg;
+    return;
+  }
+  var wrong = [];
+  vals.forEach(function(v, i){ if (v !== ans[i]) wrong.push(hints[i]); });
+  if (wrong.length === 0) {
+    DONE[n] = true;
+    document.getElementById('btn' + n).disabled = true;
+    lockChips(n, ids);
+    res.className = 'drag-result fb fb-ok';
+    res.innerHTML = '&#10003; ' + okMsg;
+  } else {
+    res.className = 'drag-result fb fb-bad';
+    res.innerHTML = '&#10007; Not quite. ' + wrong.slice(0, 2).join(' ') + (wrong.length > 2 ? ' (' + (wrong.length - 2) + ' more to fix.)' : '');
+  }
+}
+
+function checkCols(n, cols, names, total, okMsg, tip) {
+  if (DONE[n]) return;
+  var res = document.getElementById('res' + n);
+  res.style.display = 'block';
+  var count = 0, wrong = [];
+  Object.keys(cols).forEach(function(zone) {
+    getSort(zone).forEach(function(v) {
+      count++;
+      if (cols[zone].indexOf(v) === -1) {
+        var home = Object.keys(cols).filter(function(z){ return cols[z].indexOf(v) !== -1; })[0];
+        wrong.push('“' + v + '” belongs in <strong>' + names[home] + '</strong>.');
+      }
+    });
+  });
+  if (count < total) { res.className='drag-result fb fb-bad'; res.innerHTML='&#10007; Drag all ' + total + ' chips into a column before checking.'; return; }
+  if (wrong.length === 0) {
+    DONE[n] = true; document.getElementById('btn' + n).disabled = true;
+    Object.keys(cols).forEach(function(z){ document.querySelectorAll('#' + z + ' .drag-chip').forEach(function(c){ c.classList.add('locked'); }); });
+    res.className = 'drag-result fb fb-ok'; res.innerHTML = '&#10003; ' + okMsg;
+  } else {
+    res.className = 'drag-result fb fb-bad'; res.innerHTML = '&#10007; ' + wrong.slice(0, 2).join(' ') + ' ' + tip;
+  }
+}
+
+
+function checkSort2() {
+  checkCols(2, {"sort2-0": ["Film", "Screen"], "sort2-1": ["title", "age rating", "number of seats"], "sort2-2": ["book", "cancel"]},
+    {"sort2-0": "Class", "sort2-1": "Attribute", "sort2-2": "Method"}, 7,
+    "All correct! Film and Screen each store several values and have behaviour, so they are classes. Title, age rating and number of seats are single values (attributes). Book and cancel are actions (methods).",
+    "Tip: ask \"does it have its own data and behaviour?\" (class), \"is it one value?\" (attribute) or \"is it an action?\" (method).");
+}
+function checkDrop6() {
+  checkSlots(6, ["dz6a", "dz6b", "dz6c", "dz6d"],
+    ["NewVolume >= 0 and NewVolume <= 10", "self.__Volume = NewVolume", "return True", "return False"],
+    "All correct! The setter checks the range (both ends included), stores the value only if it is valid, and returns True or False so the main program knows what happened.",
+    ["Gap 1: \"inclusive\" means 0 and 10 are allowed — use <strong>&gt;=</strong> and <strong>&lt;=</strong>.", "Gap 2: a valid value is stored in the private attribute — <strong>self.__Volume = NewVolume</strong>.", "Gap 3: after storing it, <strong>return True</strong>.", "Gap 4: if the check fails, the method reaches <strong>return False</strong>."],
+    "Drag a chip into every gap before checking.");
+}
+function checkSort9() {
+  checkCols(9, {"sort9-0": ["Name", "Email", "GetEmail()"], "sort9-1": ["YearGroup", "GetYearGroup()"], "sort9-2": ["Subject", "GetSubject()"]},
+    {"sort9-0": "Person (superclass)", "sort9-1": "Student only", "sort9-2": "Teacher only"}, 7,
+    "All correct! Shared members go in the Person superclass once. YearGroup belongs only to Student and Subject only to Teacher, each with its own getter.",
+    "Tip: if both Student and Teacher need it, write it once in Person. If only one needs it, put it in that subclass.");
+}
+function checkDrop10() {
+  checkSlots(10, ["dz10a", "dz10b", "dz10c", "dz10d"],
+    ["AudioItem", "super().__init__(Title, Seconds)", "self.__Narrator = Narrator", "return self.__Narrator"],
+    "All correct! Audiobook inherits from AudioItem, calls the superclass constructor to set up the shared attributes, stores its own Narrator, and has a getter that returns it.",
+    ["Gap 1: an audiobook is an <strong>AudioItem</strong>, not a Song.", "Gap 2: set up the inherited attributes with <strong>super().__init__(Title, Seconds)</strong>.", "Gap 3: store the new private attribute — <strong>self.__Narrator = Narrator</strong>.", "Gap 4: a getter must <strong>return</strong> the value, not print it."],
+    "Drag a chip into every gap before checking.");
+}
+function checkSort15() {
+  checkCols(15, {"sort15-0": ["Teacher – Person", "Dog – Animal", "Podcast – AudioItem"], "sort15-1": ["School – Students", "Car – Wheels", "Playlist – AudioItems"]},
+    {"sort15-0": "Inheritance (\"is-a\")", "sort15-1": "Containment (\"has-a\")"}, 6,
+    "All correct! A teacher is a person, a dog is an animal and a podcast is an audio item (inheritance). A school has students, a car has wheels and a playlist has audio items (containment).",
+    "Tip: say the sentence out loud. If \"a ___ is a ___\" makes sense, it is inheritance. If \"a ___ has ___\" makes sense, it is containment.");
+}
+function checkDrop16() {
+  checkSlots(16, ["dz16a", "dz16b", "dz16c", "dz16d", "dz16e", "dz16f"],
+    ["def CountRated(self):", "Count = 0", "for Item in self.__Items:", "if Item.GetRating() > 0:", "Count = Count + 1", "return Count"],
+    "Correct! Start the count at 0, loop through every contained AudioItem, use its public getter to check the rating, add one when it is rated, and return the count after the loop.",
+    ["Line 1: the method header comes first.", "Line 2: the count must start at 0 before the loop.", "Line 3: loop through the contained AudioItem objects.", "Line 4: inside the loop, check the rating using the getter.", "Line 5: inside the if, add one to the count.", "Line 6: return the count once the loop has finished."],
+    "Drag a line into every slot before checking.");
+}
+function checkDrop21() {
+  checkSlots(21, ["dz21a", "dz21b", "dz21c", "dz21d"],
+    ["Room", "super().__init__(RoomNo, Price)", "self.__HasBalcony = HasBalcony", "return super().GetPrice() + 50"],
+    "All correct! Suite inherits from Room, calls the Room constructor, stores its own HasBalcony, and overrides GetPrice(). It uses super().GetPrice() because Price is private to Room.",
+    ["Gap 1: a suite <em>is a</em> <strong>Room</strong>. A hotel <em>has</em> rooms, so Hotel is not the superclass.", "Gap 2: set up the inherited attributes with <strong>super().__init__(RoomNo, Price)</strong>.", "Gap 3: store the new private attribute — <strong>self.__HasBalcony = HasBalcony</strong>.", "Gap 4: Price is private to Room, so Suite cannot use self.__Price. Call the superclass getter: <strong>return super().GetPrice() + 50</strong>."],
+    "Drag a chip into every gap before checking.");
+}
+function checkDrop22() {
+  checkSlots(22, ["dz22a", "dz22b", "dz22c", "dz22d", "dz22e", "dz22f"],
+    ["inheritance", "containment", "private", "getter", "overrides", "instance"],
+    "All correct — you have applied every OOP term in the specification to one scenario!",
+    ["Gap 1: a subclass of Room shows <strong>inheritance</strong>.", "Gap 2: storing a list of objects is <strong>containment</strong>.", "Gap 3: hidden attributes are <strong>private</strong>.", "Gap 4: a method that returns a private value is a <strong>getter</strong>.", "Gap 5: redefining an inherited method means Suite <strong>overrides</strong> it.", "Gap 6: one object made from a class is an <strong>instance</strong>."],
+    "Drag a word into every gap before checking.");
+}
+</script>
+</body>
+</html>
